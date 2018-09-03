@@ -59,7 +59,7 @@ public class Customer {
     private Date updatedOn;
 
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne
     private AppStatus appStatus;
 
     public Long getId() {
