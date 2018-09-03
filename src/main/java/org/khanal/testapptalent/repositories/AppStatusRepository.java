@@ -12,8 +12,5 @@ import java.util.Set;
 
 public interface AppStatusRepository extends CrudRepository<AppStatus, Long> {
 
-    @Query("from Domain")
-    Set<Domain> getDomains();
-
-    Optional<AppStatus> findByCustomerId(long id);
+    Optional<AppStatus> getAppStatusById(Long id);
 }

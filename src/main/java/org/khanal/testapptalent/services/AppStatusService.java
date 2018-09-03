@@ -7,6 +7,7 @@ import org.khanal.testapptalent.domains.Domain;
 import java.util.List;
 
 public interface AppStatusService {
-    AppStatus getAppStatusByCustomerId(long id);
-    List<Domain> getDomains();
+
+    AppStatus getAppStatus();
+
 }

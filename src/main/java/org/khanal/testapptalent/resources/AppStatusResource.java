@@ -1,25 +1,14 @@
-package org.khanal.testapptalent.domains;
+package org.khanal.testapptalent.resources;
 
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import org.khanal.testapptalent.domains.Domain;
 
-@Entity
-@Table(name="app_status")
-public class AppStatus {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import java.util.List;
 
-
-    @Column(name="landing_page")
+public class AppStatusResource {
     private String landingPage;
-
-    @Column(name="settings_page")
     private String settingsPage;
-
-    @Column(name="setup_required")
     private Boolean setupRequired;
+    private String[] domainsUsed;
 
     public String getLandingPage() {
         return landingPage;
@@ -45,14 +34,11 @@ public class AppStatus {
         this.setupRequired = setupRequired;
     }
 
-
-
-    public Long getId() {
-        return id;
+    public String[] getDomainsUsed() {
+        return domainsUsed;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDomainsUsed(String[] domainsUsed) {
+        this.domainsUsed = domainsUsed;
     }
-
 }

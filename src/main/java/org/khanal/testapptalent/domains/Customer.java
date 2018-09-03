@@ -58,9 +58,6 @@ public class Customer {
     @Column(name="updated_on")
     private Date updatedOn;
 
-    @JsonIgnore
-    @ManyToOne()
-    private AppStatus appStatus;
 
     public Long getId() {
         return id;
