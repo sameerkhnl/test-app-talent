@@ -1,6 +1,7 @@
 package org.khanal.testapptalent.services;
 
 import org.khanal.testapptalent.domains.AppStatus;
+import org.khanal.testapptalent.domains.Customer;
 import org.khanal.testapptalent.repositories.AppStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class AppStatusServiceImpl implements AppStatusService{
 
 
     @Override
-    public AppStatus getAppStatus() {
-        return this.appStatusRepository.getAppStatusById(1L).get();
+    public AppStatus getAppStatusFromCustomer(Customer customer) {
+        return this.appStatusRepository.getByCustomer(customer).get();
     }
 }

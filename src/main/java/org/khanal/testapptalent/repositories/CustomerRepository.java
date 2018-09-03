@@ -40,4 +40,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
     @Override
     @RestResource(exported = false)
     void deleteAll();
+
+    Optional<Customer> findByShortCode(String code);
 }

@@ -1,16 +1,13 @@
 package org.khanal.testapptalent.repositories;
 
 import org.khanal.testapptalent.domains.AppStatus;
-import org.khanal.testapptalent.domains.Domain;
-import org.springframework.data.jpa.repository.Query;
+import org.khanal.testapptalent.domains.Customer;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 public interface AppStatusRepository extends CrudRepository<AppStatus, Long> {
 
-    Optional<AppStatus> getAppStatusById(Long id);
+    Optional<AppStatus> getByCustomer(Customer customer);
 }
