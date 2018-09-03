@@ -1,37 +1,82 @@
-package org.khanal.testapptalent.domain;
+package org.khanal.testapptalent.domains;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
+@Table(name = "customers")
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @NotEmpty
+    @Column(name="name")
     private String name;
 
     @NotNull
     @NotEmpty
+    @Column(name="contact_email")
     private String contactEmail;
 
     @NotNull
     @NotEmpty
+    @Column(name="short_code")
     private String shortCode;
 
     @NotNull
+    @Column(name="type")
     private Types type;
+
+    @Column(name="country")
     private Country country;
+
+    @Column(name="timezone")
     private String timeZone;
+
+    @Column(name="logo_url")
     private String logoUrl;
+
+    @Column(name="privacy_policy_url")
     private String privacyPolicyUrl;
+
+    @Column(name="active")
+    private boolean active;
+
+    @JsonIgnore
+    @Column(name = "created_on")
+    private Date createdOn;
+
+    @JsonIgnore
+    @Column(name="updated_on")
+    private Date updatedOn;
+
+    @JsonIgnore
+    @ManyToOne()
+    private AppStatus appStatus;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public String getName() {
         return name;
@@ -96,9 +141,32 @@ public class Customer {
     public void setPrivacyPolicyUrl(String privacyPolicyUrl) {
         this.privacyPolicyUrl = privacyPolicyUrl;
     }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        if(createdOn == null){
+            createdOn = new Date();
+        }
+        updatedOn = new Date();
+    }
 }
-
-
 
 enum Types {
     PRODUCTION,
