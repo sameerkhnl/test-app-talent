@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AppStatusService {
 
-    AppStatus getAppStatusFromCustomer(Customer customer);
+    AppStatus getAppStatusByCustomerCode(String code);
+    AppStatus getAppStatusByCustomerId(long id);
 
 }

@@ -1,5 +1,6 @@
 package org.khanal.testapptalent.controllers;
 
+import org.khanal.testapptalent.domains.AppStatus;
 import org.khanal.testapptalent.domains.Customer;
 import org.khanal.testapptalent.services.AppStatusService;
 import org.khanal.testapptalent.services.CustomerService;
@@ -23,8 +24,14 @@ public class LandingPageController {
 
     @GetMapping
     public ResponseEntity<?> getLandingPage(final Principal principal) {
-        String name = principal.getName();
-        Customer customer = this.customerService.getCustomerByCode(name);
-        return ResponseEntity.ok().body(appStatusService.getAppStatusFromCustomer(customer).getLandingPage());
+        AppStatus appStatus;
+        if(principal != null){
+            String name = principal.getName();
+            appStatus = this.appStatusService.getAppStatusByCustomerCode(name);
+        } else {
+            appStatus = this.appStatusService.getAppStatusByCustomerId(1);
+        }
+
+        return ResponseEntity.ok().body(appStatus.getLandingPage());
     }
 }

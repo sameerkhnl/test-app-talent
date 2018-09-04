@@ -3,7 +3,6 @@ package org.khanal.testapptalent.controllers;
 import org.khanal.testapptalent.converters.AppStatusToAppStatusResourceConverter;
 import org.khanal.testapptalent.domains.AppStatus;
 import org.khanal.testapptalent.domains.Customer;
-import org.khanal.testapptalent.domains.Domain;
 import org.khanal.testapptalent.resources.AppStatusResource;
 import org.khanal.testapptalent.services.AppStatusService;
 import org.khanal.testapptalent.services.CustomerService;
@@ -36,9 +35,14 @@ public class AppStatusController {
 
     @GetMapping
     public ResponseEntity<AppStatusResource> getAppStatus(final Principal principal) {
-        String name = principal.getName();
-        Customer customer = this.customerService.getCustomerByCode(name);
-        AppStatus appStatus = this.appStatusService.getAppStatusFromCustomer(customer);
+        AppStatus appStatus;
+        if(principal != null){
+             String name = principal.getName();
+             appStatus = this.appStatusService.getAppStatusByCustomerCode(name);
+        } else {
+            //for testing
+            appStatus = this.appStatusService.getAppStatusByCustomerId(1);
+        }
         AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(appStatus);
         List<String> domainNames = this.domainService.getAppDomainNames();
         String[] domains = new String[domainNames.size()];
