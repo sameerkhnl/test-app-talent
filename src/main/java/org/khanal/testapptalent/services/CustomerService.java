@@ -4,4 +4,5 @@ import org.khanal.testapptalent.domains.Customer;
 
 public interface CustomerService {
     Customer getCustomerByCode(String code);
+    Customer saveCustomer(Customer customer);
 }

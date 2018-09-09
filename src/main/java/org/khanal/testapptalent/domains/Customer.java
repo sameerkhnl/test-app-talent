@@ -33,7 +33,7 @@ public class Customer {
 
     @NotNull
     @Column(name="type")
-    private Types type;
+    private Type type;
 
     @Column(name="country")
     private Country country;
@@ -102,11 +102,11 @@ public class Customer {
         this.shortCode = shortCode;
     }
 
-    public Types getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Types type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -158,6 +158,14 @@ public class Customer {
         this.updatedOn = updatedOn;
     }
 
+    public AppStatus getAppStatus() {
+        return appStatus;
+    }
+
+    public void setAppStatus(AppStatus appStatus) {
+        this.appStatus = appStatus;
+    }
+
     @PreUpdate
     @PrePersist
     public void updateTimeStamps() {
@@ -168,7 +176,7 @@ public class Customer {
     }
 }
 
-enum Types {
+enum Type {
     PRODUCTION,
     SANDBOX
 }

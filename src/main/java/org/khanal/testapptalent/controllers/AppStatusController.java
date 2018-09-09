@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -34,16 +33,25 @@ public class AppStatusController {
     }
 
     @GetMapping("/t/{tenant}/devs/{developer}/appStatus")
-    public ResponseEntity<AppStatusResource> getAppStatus(@PathVariable String tenant, @PathVariable String developer) {
+    public ResponseEntity<AppStatusResource> getAppStatus(@RequestParam(value = "setupRequired", required = false)Boolean setupRequired, @PathVariable String tenant, @PathVariable String developer) {
         //Customer customer = this.customerService.getCustomerByCode(tenantCode);
+        if(setupRequired == null){
+            AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
 
-        AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
+            AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(appStatus);
+            List<String> domainNames = this.domainService.getAppDomainNames();
+            String[] domains = new String[domainNames.size()];
+            domains = domainNames.toArray(domains);
+            appStatusResource.setDomainsUsed(domains);
+            return ResponseEntity.ok().body(appStatusResource);
+        } else {
+            Customer retrieved = this.customerService.getCustomerByCode(tenant);
+            retrieved.getAppStatus().setSetupRequired(setupRequired);
+            this.customerService.saveCustomer(retrieved);
+            AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(retrieved.getAppStatus());
+            return ResponseEntity.ok().body(appStatusResource);
+        }
 
-        AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(appStatus);
-        List<String> domainNames = this.domainService.getAppDomainNames();
-        String[] domains = new String[domainNames.size()];
-        domains = domainNames.toArray(domains);
-        appStatusResource.setDomainsUsed(domains);
-        return ResponseEntity.ok().body(appStatusResource);
     }
+
 }

@@ -20,4 +20,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomerByCode(String code) {
         return this.customerRepository.findByShortCode(code).get();
     }
+
+    @Override
+    public Customer saveCustomer(Customer customer) {
+        return this.customerRepository.save(customer);
+    }
 }
