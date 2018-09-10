@@ -33,9 +33,10 @@ public class AppStatusController {
         this.appStatusToAppStatusResourceConverter = appStatusToAppStatusResourceConverter;
     }
 
+    //for now the developer path variable is ignored
     @GetMapping(value = "/t/{tenant}/devs/{developer}/appStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppStatusResource> getAppStatus(@RequestParam(value = "setupRequired", required = false)Boolean setupRequired, @PathVariable String tenant, @PathVariable String developer) {
-        //Customer customer = this.customerService.getCustomerByCode(tenantCode);
+        //if the appStatus has not been assigned to the customer
         if(setupRequired == null){
             AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
 

@@ -25,7 +25,7 @@ public class CustomerController {
             return ResponseEntity.created(new URI("/tenants/" + retrieved.getShortCode())).body(retrieved);
         } catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
