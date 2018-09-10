@@ -14,7 +14,6 @@ public class AppStatus {
     @OneToMany(mappedBy = "appStatus")
     private Collection<Customer> customer;
 
-
     @Column(name="landing_page")
     private String landingPage;
 

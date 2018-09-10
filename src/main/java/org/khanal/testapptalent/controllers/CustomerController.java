@@ -3,6 +3,7 @@ package org.khanal.testapptalent.controllers;
 import org.khanal.testapptalent.domains.Customer;
 import org.khanal.testapptalent.services.CustomerService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,9 @@ public class CustomerController {
     public ResponseEntity<Customer> addNewCustomer(@RequestBody Customer customer) {
         try {
             Customer retrieved = this.customerService.saveCustomer(customer);
-            return ResponseEntity.created(new URI("/tenants/" + retrieved.getShortCode())).build();
+            return ResponseEntity.created(new URI("/tenants/" + retrieved.getShortCode())).body(retrieved);
         } catch (Exception e){
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
@@ -30,7 +32,7 @@ public class CustomerController {
     @GetMapping("/tenants/{tenant}")
     public ResponseEntity<Customer> getCustomer(@PathVariable("tenant") String shortCode){
         Customer customer = this.customerService.getCustomerByCode(shortCode);
-        return ResponseEntity.status(HttpStatus.OK).body(customer);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(customer);
     }
 
     @PutMapping("/tenants/{tenant}")
@@ -53,6 +55,7 @@ public class CustomerController {
     public ResponseEntity<?> startApp(@PathVariable("tenant") String customer) {
         Customer retrieved = this.customerService.getCustomerByCode(customer);
         retrieved.setActive(true);
+        this.customerService.saveCustomer(retrieved);
         return ResponseEntity.ok().build();
     }
 

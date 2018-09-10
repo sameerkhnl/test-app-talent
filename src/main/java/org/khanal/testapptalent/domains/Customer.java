@@ -1,6 +1,7 @@
 package org.khanal.testapptalent.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,8 +13,8 @@ import java.util.Date;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -33,10 +34,10 @@ public class Customer {
 
     @NotNull
     @Column(name="type")
-    private Type type;
+    private String type;
 
     @Column(name="country")
-    private Country country;
+    private String country;
 
     @Column(name="timezone")
     private String timeZone;
@@ -48,7 +49,7 @@ public class Customer {
     private String privacyPolicyUrl;
 
     @Column(name="active")
-    private boolean active;
+    private boolean active = true;
 
     @JsonIgnore
     @Column(name = "created_on")
@@ -60,7 +61,24 @@ public class Customer {
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "app_status_id")
     private AppStatus appStatus;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public Long getId() {
         return id;
@@ -100,22 +118,6 @@ public class Customer {
 
     public void setShortCode(String shortCode) {
         this.shortCode = shortCode;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 
     public String getTimeZone() {
@@ -176,22 +178,3 @@ public class Customer {
     }
 }
 
-enum Type {
-    PRODUCTION,
-    SANDBOX
-}
-
-enum Country {
-    AC, AD, AE, AF, AG, AI, AL, AM, AN, AO, AQ, AR, AS, AT, AU, AW, AX, AZ, BA, BB, BD, BE,
-    BF, BG, BH, BI, BJ, BM, BN, BO, BR, BS, BT, BV, BW, BY, BZ, CA, CC, CD, CF, CG, CH,
-    CI, CK, CL, CM, CN, CO, CR, CU, CV, CX, CY, CZ, DE, DJ, DK, DM, DO, DZ, EC, EE, EG,
-    ER, ES, ET, FI, FJ, FK, FM, FO, FR, GA, GB, GD, GE, GF, GG, GH, GI, GL, GM, GN, GP,
-    GQ, GR, GS, GT, GU, GW, GY, HK, HM, HN, HR, HT, HU, ID, IE, IL, IM, IN, IO, IQ, IR,
-    IS, IT, JE, JM, JO, JP, KE, KG, KH, KI, KM, KN, KP, KR, KW, KY, KZ, LA, LB, LC, LI,
-    LK, LR, LS, LT, LU, LV, LY, MA, MC, MD, ME, MG, MH, MK, ML, MM, MN, MO, MP, MQ, MR,
-    MS, MT, MU, MV, MW, MX, MY, MZ, NA, NC, NE, NF, NG, NI, NL, NO, NP, NR, NU, NZ, OM,
-    PA, PE, PF, PG, PH, PK, PL, PM, PN, PR, PT, PW, PY, QA, RE, RO, RS, RU, RW, SA, SB,
-    SC, SD, SE, SG, SH, SI, SJ, SK, SL, SM, SN, SO, SR, ST, SV, SY, SZ, TA, TC, TD, TF,
-    TG, TH, TJ, TK, TL, TM, TN, TO, TR, TT, TV, TW, TZ, UA, UG, UM, US, UY, UZ, VA, VC,
-    VE, VG, VI, VN, VU, WF, WS, YE, YT, ZA, ZM, ZW
-}

@@ -42,4 +42,13 @@ public class AppStatusServiceImpl implements AppStatusService{
         Customer customer = this.customerRepository.findById(id).get();
         return this.appStatusRepository.getByCustomer(customer).get();
     }
+
+    @Override
+    @Transactional
+    public AppStatus saveAppstatus(AppStatus appStatus) {
+        return this.appStatusRepository.save(appStatus);
+
+    }
+
+
 }

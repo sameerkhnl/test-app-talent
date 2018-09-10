@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "domains")
 public class Domain {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "domain_name")
