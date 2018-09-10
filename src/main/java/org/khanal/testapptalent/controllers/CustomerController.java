@@ -43,4 +43,17 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(retrieved);
     }
 
+    @DeleteMapping("/tenants/{tenant}/uninstall")
+    public ResponseEntity<?> removeCustomerOnUninstall(@PathVariable("tenant") String shortCode) {
+        Customer retrieved = this.customerService.makeCustomerInactive(shortCode);
+        return ResponseEntity.status(HttpStatus.OK).body(retrieved.getAppStatus());
+    }
+
+    @GetMapping("/tenants/{tenant}/install")
+    public ResponseEntity<?> startApp(@PathVariable("tenant") String customer) {
+        Customer retrieved = this.customerService.getCustomerByCode(customer);
+        retrieved.setActive(true);
+        return ResponseEntity.ok().build();
+    }
+
 }

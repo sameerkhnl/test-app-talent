@@ -25,4 +25,12 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer saveCustomer(Customer customer) {
         return this.customerRepository.save(customer);
     }
+
+    @Override
+    public Customer makeCustomerInactive(String code) {
+        Customer customer = this.getCustomerByCode(code);
+        customer.getAppStatus().setSetupRequired(true);
+        customer.setActive(false);
+        return customer;
+    }
 }

@@ -37,7 +37,7 @@ public class AuthorizationTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         logger.debug("processing authentication for " + httpServletRequest.getRequestURL());
         final String secret = httpServletRequest.getHeader(tokenHeader);
-        if (secret != null && secret.equals(requiredTokenValue)) {
+        if (secret != null && secret.substring(7).equals(requiredTokenValue)) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } else {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid authentication token");
