@@ -8,6 +8,7 @@ import org.khanal.testapptalent.services.AppStatusService;
 import org.khanal.testapptalent.services.CustomerService;
 import org.khanal.testapptalent.services.DomainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class AppStatusController {
         this.appStatusToAppStatusResourceConverter = appStatusToAppStatusResourceConverter;
     }
 
-    @GetMapping("/t/{tenant}/devs/{developer}/appStatus")
+    @GetMapping(value = "/t/{tenant}/devs/{developer}/appStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppStatusResource> getAppStatus(@RequestParam(value = "setupRequired", required = false)Boolean setupRequired, @PathVariable String tenant, @PathVariable String developer) {
         //Customer customer = this.customerService.getCustomerByCode(tenantCode);
         if(setupRequired == null){

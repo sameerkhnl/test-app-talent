@@ -18,7 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @RequestMapping(path = "/tenants", method = RequestMethod.POST)
+    @RequestMapping(path = "/tenants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> addNewCustomer(@RequestBody Customer customer) {
         try {
             Customer retrieved = this.customerService.saveCustomer(customer);
@@ -29,13 +29,13 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/tenants/{tenant}")
+    @GetMapping(value = "/tenants/{tenant}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> getCustomer(@PathVariable("tenant") String shortCode){
         Customer customer = this.customerService.getCustomerByCode(shortCode);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(customer);
     }
 
-    @PutMapping("/tenants/{tenant}")
+    @PutMapping(value = "/tenants/{tenant}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> updateCustomer(@PathVariable("tenant") String shortCode, @RequestBody Customer customer){
         Customer retrieved = this.customerService.getCustomerByCode(shortCode);
         customer.setId(retrieved.getId());
@@ -45,13 +45,13 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(retrieved);
     }
 
-    @DeleteMapping("/tenants/{tenant}/uninstall")
+    @DeleteMapping(value = "/tenants/{tenant}/uninstall", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> removeCustomerOnUninstall(@PathVariable("tenant") String shortCode) {
         Customer retrieved = this.customerService.makeCustomerInactive(shortCode);
         return ResponseEntity.status(HttpStatus.OK).body(retrieved.getAppStatus());
     }
 
-    @GetMapping("/tenants/{tenant}/install")
+    @GetMapping(value = "/tenants/{tenant}/install")
     public ResponseEntity<?> startApp(@PathVariable("tenant") String customer) {
         Customer retrieved = this.customerService.getCustomerByCode(customer);
         retrieved.setActive(true);
