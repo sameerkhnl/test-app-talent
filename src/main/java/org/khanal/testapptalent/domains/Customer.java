@@ -96,6 +96,8 @@ public class Customer {
         this.active = active;
     }
 
+
+
     public String getName() {
         return name;
     }

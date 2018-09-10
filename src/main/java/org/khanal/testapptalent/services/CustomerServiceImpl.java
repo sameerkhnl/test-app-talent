@@ -30,7 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer makeCustomerInactive(String code) {
         Customer customer = this.getCustomerByCode(code);
-        customer.getAppStatus().setSetupRequired(true);
+        if(customer.getAppStatus() != null){
+            customer.getAppStatus().setSetupRequired(true);
+        }
         customer.setActive(false);
         return customer;
     }
