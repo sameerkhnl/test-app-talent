@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
+    private AppStatusService appStatusService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, AppStatusService appStatusService) {
         this.customerRepository = customerRepository;
+        this.appStatusService = appStatusService;
     }
 
     @Override
@@ -24,19 +26,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer saveCustomer(Customer customer) {
-        if(customer.getAppStatus() == null){
-            AppStatus appStatus = new AppStatus();
-            appStatus.setId(1L);
+        //if no appStatus then set default appStatus with ID1
+        if (customer.getAppStatus() == null) {
+            AppStatus appStatus = this.appStatusService.getStatusById(1L);
+            this.appStatusService.saveAppstatus(appStatus);
             customer.setAppStatus(appStatus);
         }
-        Customer c =  this.customerRepository.save(customer);
+        Customer c = this.customerRepository.save(customer);
         return c;
     }
 
     @Override
     public Customer makeCustomerInactive(String code) {
         Customer customer = this.getCustomerByCode(code);
-        if(customer.getAppStatus() != null){
+        if (customer.getAppStatus() != null) {
             customer.getAppStatus().setSetupRequired(true);
         }
         customer.setActive(false);

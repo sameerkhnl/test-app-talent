@@ -11,9 +11,6 @@ public class AppStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "appStatus")
-    private Collection<Customer> customer;
-
     @Column(name="landing_page")
     private String landingPage;
 

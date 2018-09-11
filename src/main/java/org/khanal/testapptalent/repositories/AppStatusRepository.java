@@ -9,5 +9,4 @@ import java.util.Optional;
 
 public interface AppStatusRepository extends CrudRepository<AppStatus, Long> {
 
-    Optional<AppStatus> getByCustomer(Customer customer);
 }

@@ -35,18 +35,6 @@ public class AppStatusServiceImplITest {
     }
 
     @Test
-    public void b_getAppStatusByCustomerCode() {
-        AppStatus retrieved = this.appStatusService.getAppStatusByCustomerCode("acmesandbox");
-        assertEquals("localhost:4200/setup", retrieved.getSettingsPage());
-    }
-
-    @Test
-    public void c_getAppStatusByCustomerId() {
-        AppStatus retrieved = this.appStatusService.getAppStatusByCustomerId(1);
-        assertEquals("localhost:4200/setup", retrieved.getSettingsPage());
-    }
-
-    @Test
     public void a_saveAppstatus() {
         AppStatus retrieved = this.appStatusService.saveAppstatus(appStatus);
         assertEquals(appStatus.getLandingPage(), retrieved.getLandingPage());

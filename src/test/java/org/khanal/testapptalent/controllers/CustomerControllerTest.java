@@ -39,9 +39,4 @@ public class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
-    @Test
-    public void addNewCustomer() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/tenants")).andExpect
-                (MockMvcResultMatchers.status().isCreated()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
-    }
 }

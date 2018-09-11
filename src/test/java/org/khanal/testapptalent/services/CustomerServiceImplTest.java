@@ -16,12 +16,14 @@ public class CustomerServiceImplTest {
 
     @Mock
     private CustomerRepository customerRepository;
+    @Mock
+    private AppStatusService appStatusService;
     private Customer customer = new Customer();
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        customerService = new CustomerServiceImpl(customerRepository);
+        customerService = new CustomerServiceImpl(customerRepository,appStatusService);
 //        customer = new Customer();
 //        customer.setShortCode("sameerkhnl");
 //        customer.setName("Sameer Khanal");

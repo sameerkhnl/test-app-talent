@@ -33,13 +33,12 @@ public class AppStatusController {
         this.appStatusToAppStatusResourceConverter = appStatusToAppStatusResourceConverter;
     }
 
-    //for now the developer path variable is ignored
     @GetMapping(value = "/t/{tenant}/devs/{developer}/appStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppStatusResource> getAppStatus(@RequestParam(value = "setupRequired", required = false)Boolean setupRequired, @PathVariable String tenant, @PathVariable String developer) {
-        //if the appStatus has not been assigned to the customer
+        Customer retrieved = this.customerService.getCustomerByCode(tenant);
+        //if the requestParam does not specify setupRequired then just fetch the AppStatusResource
         if(setupRequired == null){
-            AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
-
+            AppStatus appStatus = retrieved.getAppStatus();
             AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(appStatus);
             List<String> domainNames = this.domainService.getAppDomainNames();
             String[] domains = new String[domainNames.size()];
@@ -47,7 +46,7 @@ public class AppStatusController {
             appStatusResource.setDomainsUsed(domains);
             return ResponseEntity.ok().body(appStatusResource);
         } else {
-            Customer retrieved = this.customerService.getCustomerByCode(tenant);
+            //if the setup required parameter is specified, the assign that value to the Customer instance
             retrieved.getAppStatus().setSetupRequired(setupRequired);
             this.customerService.saveCustomer(retrieved);
             AppStatusResource appStatusResource = this.appStatusToAppStatusResourceConverter.convert(retrieved.getAppStatus());

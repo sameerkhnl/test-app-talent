@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface AppStatusService {
 
-    AppStatus getAppStatusByCustomerCode(String code);
-    AppStatus getAppStatusByCustomerId(long id);
+
     AppStatus saveAppstatus(AppStatus appStatus);
+    AppStatus getStatusById(Long id);
 
 }

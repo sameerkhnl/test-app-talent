@@ -23,9 +23,9 @@ public class LandingPageController {
         this.customerService = customerService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getLandingPage(@PathVariable String tenant, @PathVariable String developer) {
-        AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
-        return ResponseEntity.ok().body(appStatus.getLandingPage());
-    }
+//    @GetMapping
+//    public ResponseEntity<?> getLandingPage(@PathVariable String tenant, @PathVariable String developer) {
+//        AppStatus appStatus = this.appStatusService.getAppStatusByCustomerCode(tenant);
+//        return ResponseEntity.ok().body(appStatus.getLandingPage());
+//    }
 }

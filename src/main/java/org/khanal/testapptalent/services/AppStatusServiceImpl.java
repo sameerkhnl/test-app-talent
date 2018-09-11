@@ -24,30 +24,17 @@ public class AppStatusServiceImpl implements AppStatusService{
         this.customerRepository = customerRepository;
     }
 
-    @Override
-    @Transactional
-    public AppStatus getAppStatusByCustomerCode(String code) {
-        Optional<Customer> customerOptional = this.customerRepository.findByShortCode(code);
-        if(customerOptional.isPresent()){
-            Optional<AppStatus> appStatusOptional = this.appStatusRepository.getByCustomer(customerOptional.get());
-            return appStatusOptional.get();
-        } else {
-            throw new CustomerNotFoundException("Could not find tenant with the code");
-        }
-    }
-
-    @Override
-    @Transactional
-    public AppStatus getAppStatusByCustomerId(long id) {
-        Customer customer = this.customerRepository.findById(id).get();
-        return this.appStatusRepository.getByCustomer(customer).get();
-    }
 
     @Override
     @Transactional
     public AppStatus saveAppstatus(AppStatus appStatus) {
         return this.appStatusRepository.save(appStatus);
 
+    }
+
+    @Override
+    public AppStatus getStatusById(Long id) {
+        return this.appStatusRepository.findById(id).get();
     }
 
 
